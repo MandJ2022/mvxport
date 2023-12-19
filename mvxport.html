@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MultiversX Address Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=KoHo&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="mvxport.css">
+    <style>
+    </style>
+</head>
+<body>
+    <h1>MultiversX token Search</h1>
+    <form id="searchForm">
+        <input type="text" id="addressInput" placeholder="Enter MultiversX address">
+        <button type="submit">Search</button>
+    </form>
+    <div id="result">
+
+    </div>
+    <canvas id="myChart"></canvas>
+    <script>
+         document.getElementById('searchForm').addEventListener('submit', function(event) {
+
+            event.preventDefault();
+
+            var address = document.getElementById('addressInput').value;
+
+            if (address) {
+
+                fetch('https://gateway.multiversx.com/address/' + address + '/esdt')
+                    .then(response => response.json())
+                    .then(data => {
+
+                        document.getElementById('result').innerHTML = '';
+
+                        if (typeof data === 'object' && data !== null) {
+
+                            var labels = [];
+                            var balances = [];
+
+                            for (var key in data.data.esdts) {
+                                if (data.data.esdts.hasOwnProperty(key)) {
+
+                                    var balanceInSmallestUnit = BigInt(data.data.esdts[key].balance);
+                                    var conversionFactor = BigInt(Math.pow(10, 18));
+                                    var balanceInStandardUnit = Number(balanceInSmallestUnit) / Number(conversionFactor);
+
+                                    if (balanceInStandardUnit > 0.0001) {
+
+                                        var p = document.createElement('p');
+
+                                        var tokenIdentifier = document.createElement('span');
+                                        tokenIdentifier.textContent = 'Token Identifier: ';
+                                        tokenIdentifier.className = 'token-identifier';
+
+                                        var tokenResult = document.createElement('span');
+                                        tokenResult.textContent = key + (data.data.esdts[key].name ? data.data.esdts[key].name : '');
+                                        tokenResult.className = 'result';
+
+                                        var balance = document.createElement('span');
+                                        balance.textContent = ', Balance: ';
+                                        balance.className = 'balance';
+
+                                        var balanceResult = document.createElement('span');
+                                        balanceResult.textContent = balanceInStandardUnit;
+                                        balanceResult.className = 'result';
+
+                                        p.appendChild(tokenIdentifier);
+                                        p.appendChild(tokenResult);
+                                        p.appendChild(balance);
+                                        p.appendChild(balanceResult);
+
+                                        document.getElementById('result').appendChild(p);
+
+                                        if (data.data.esdts[key].imageURL) {
+                                            var img = document.createElement('img');
+                                            img.src = data.data.esdts[key].imageURL;
+                                            document.getElementById('result').appendChild(img);
+                                        }
+
+                                        labels.push(data.data.esdts[key].name);
+                                        balances.push(balanceInStandardUnit);
+                                    }
+                                }
+                            }
+                        } else {
+
+                            document.getElementById('result').textContent = JSON.stringify(data);
+                        }
+                    })
+                    .catch(error => {
+
+                        console.error('Error:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
