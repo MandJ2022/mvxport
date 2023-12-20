@@ -6,8 +6,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=KoHo&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="mvxport.css">
-    <style>
-    </style>
 </head>
 <body>
     <h1>MultiversX Address Search</h1>
@@ -15,9 +13,8 @@
         <input type="text" id="addressInput" placeholder="Enter MultiversX address">
         <button type="submit">Search</button>
     </form>
-    <div id="result">
-
-    </div>
+    <div id="welcomeMessage"></div>
+    <div id="result"></div>
     <canvas id="myChart"></canvas>
     <script>
          document.getElementById('searchForm').addEventListener('submit', function(event) {
@@ -27,6 +24,23 @@
             var address = document.getElementById('addressInput').value;
 
             if (address) {
+
+                fetch('https://gateway.multiversx.com/address/' + address + '/username')
+                    .then(response => response.json())
+                    .then(data => {
+
+                        document.getElementById('welcomeMessage').innerHTML = '';
+
+                        // Display the welcome message with the herotag
+                        var welcomeMessage = document.createElement('p');
+                        welcomeMessage.textContent = 'Welcome, ' + data.data.username;
+                        document.getElementById('welcomeMessage').appendChild(welcomeMessage);
+
+                    })
+                    .catch(error => {
+
+                        console.error('Error:', error);
+                    });
 
                 fetch('https://gateway.multiversx.com/address/' + address + '/esdt')
                     .then(response => response.json())
