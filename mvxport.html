@@ -16,7 +16,10 @@
         <button type="submit">Search</button>
     </form>
     <div id="welcomeMessage"></div>
-    <div id="egldBalance"></div>
+    <div id="egldBalance">
+        <p></p>
+        <img id="profilePic" src="">
+    </div>
     <div id="result"></div>
     <script>
         function typeEffect(element, text, delay = 100) {
@@ -65,9 +68,14 @@
                             var conversionFactor = BigInt(Math.pow(10, 18));
                             var balanceInStandardUnit = (Number(balanceInSmallestUnit) / Number(conversionFactor)).toFixed(4);
 
-                            var p = document.createElement('p');
+                            var p = document.getElementById('egldBalance').children[0];
                             p.textContent = 'Available EGLD: ' + balanceInStandardUnit;
-                            document.getElementById('egldBalance').appendChild(p);
+
+                            // Construct the URL for the profile picture
+                            var profilePicUrl = 'https://id.maiar.com/users/photos/profile/' + address;
+                            var profilePicElement = document.getElementById('profilePic');
+                            profilePicElement.src = profilePicUrl;
+                            profilePicElement.style.display = 'inline'; // Show the image
                         } else {
                             console.log('Balance not found in the response', data);
                         }
