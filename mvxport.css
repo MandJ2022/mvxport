@@ -3,6 +3,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    width: 100%;
 }
 
 h1 {
@@ -30,14 +33,14 @@ h1 {
 #result {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 600px;
+    justify-content: space-between; /* This will create a two-column layout for your list */
+    max-width: 600px; /* You can adjust this value as needed */
 }
 #result p {
-    width: 45%;
+    width: 45%; /* You can adjust this value as needed */
     box-sizing: border-box;
 }
-
+/* Responsive styling */
 @media only screen and (max-width: 600px) {
     body {
         font-size: 18px;
@@ -46,7 +49,7 @@ h1 {
         font-size: 24px;
     }
     #result p {
-        width: 100%;
+        width: 100%; /* On small screens, the list items will stack vertically */
     }
 }
 
@@ -83,10 +86,21 @@ h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-family: 'KoHo', sans-serif;
 }
+
 #welcomeMessage {
     color: rgb(255, 255, 255);
     font-size: 20px;
     font-weight: bold;
     font-family: 'Bebas Neue', sans-serif;
     font-family: 'KoHo', sans-serif;
+}
+#egldBalance {
+    color: #23def7;
+    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'KoHo', sans-serif;
+}
+
+button:active {
+    background-color: #ddd;
+    transform:scale(1.1) ;
 }
