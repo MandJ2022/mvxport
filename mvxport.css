@@ -97,17 +97,26 @@ h1 {
     font-weight: bold;
     font-family: 'Bebas Neue', sans-serif;
     font-family: 'KoHo', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 #egldBalance {
-    color: #23def7;
+    color: #ffffff;
     font-family: 'Bebas Neue', sans-serif;
     font-family: 'KoHo', sans-serif;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 80px;
+    font-size: 1.2em;
 }
 
 button:active {
     background-color: #ddd;
     transform:scale(1.1) ;
 }
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -126,4 +135,12 @@ p {
     justify-content: space-between;
     align-items: baseline;
     flex-direction: row;
+}
+
+#profilePic {
+    height: 60px;
+    width: 60px;
+    display: none;
+    border-radius: 5px;
+    border: 2px solid #f1f1f1;
 }
