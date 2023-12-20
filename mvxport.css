@@ -104,3 +104,10 @@ button:active {
     background-color: #ddd;
     transform:scale(1.1) ;
 }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+p {
+    animation: fadeIn 2s;
+}
