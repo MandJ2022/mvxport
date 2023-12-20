@@ -6,6 +6,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=KoHo&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="mvxport.css">
+    <style>
+    </style>
 </head>
 <body>
     <h1>MultiversX Address Search</h1>
@@ -14,6 +16,7 @@
         <button type="submit">Search</button>
     </form>
     <div id="welcomeMessage"></div>
+    <div id="egldBalance"></div>
     <div id="result"></div>
     <script>
         function typeEffect(element, text, delay = 100) {
@@ -54,6 +57,25 @@
                         console.error('Error:', error);
                     });
 
+                fetch('https://gateway.multiversx.com/address/' + address)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.data && data.data.account && data.data.account.balance) {
+                            var balanceInSmallestUnit = BigInt(data.data.account.balance);
+                            var conversionFactor = BigInt(Math.pow(10, 18));
+                            var balanceInStandardUnit = (Number(balanceInSmallestUnit) / Number(conversionFactor)).toFixed(4);
+
+                            var p = document.createElement('p');
+                            p.textContent = 'Available EGLD: ' + balanceInStandardUnit;
+                            document.getElementById('egldBalance').appendChild(p);
+                        } else {
+                            console.log('Balance not found in the response', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
                 fetch('https://gateway.multiversx.com/address/' + address + '/esdt')
                     .then(response => response.json())
                     .then(data => {
@@ -67,10 +89,9 @@
 
                             for (var key in data.data.esdts) {
                                 if (data.data.esdts.hasOwnProperty(key)) {
-
                                     var balanceInSmallestUnit = BigInt(data.data.esdts[key].balance);
                                     var conversionFactor = BigInt(Math.pow(10, 18));
-                                    var balanceInStandardUnit = Number(balanceInSmallestUnit) / Number(conversionFactor);
+                                    var balanceInStandardUnit = (Number(balanceInSmallestUnit) / Number(conversionFactor)).toFixed(4);
 
                                     if (balanceInStandardUnit > 0.0001) {
 
