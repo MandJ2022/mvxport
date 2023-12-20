@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="mvxport.css">
 </head>
 <body>
-    <h1>MultiversX Address Search</h1>
+    <h1>MultiversX </h1>
     <form id="searchForm">
         <input type="text" id="addressInput" placeholder="Enter MultiversX address">
         <button type="submit">Search</button>
@@ -17,7 +17,19 @@
     <div id="result"></div>
     <canvas id="myChart"></canvas>
     <script>
-         document.getElementById('searchForm').addEventListener('submit', function(event) {
+        function typeEffect(element, text, delay = 100) {
+            let i = 0;
+            let timer = setInterval(function() {
+                if (i < text.length) {
+                    element.append(text.charAt(i));
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, delay);
+        }
+
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
 
             event.preventDefault();
 
@@ -33,8 +45,9 @@
 
                         // Display the welcome message with the herotag
                         var welcomeMessage = document.createElement('p');
-                        welcomeMessage.textContent = 'Welcome, ' + data.data.username;
+                        welcomeMessage.textContent = 'Welcome, ';
                         document.getElementById('welcomeMessage').appendChild(welcomeMessage);
+                        typeEffect(welcomeMessage, data.data.username);
 
                     })
                     .catch(error => {
